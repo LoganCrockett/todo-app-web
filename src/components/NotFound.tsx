@@ -1,6 +1,6 @@
 const NotFound = () => {
     return (
-        <div className="text-center center mt-3">
+        <div className="text-center center mt-3" data-testid="notFoundDiv">
             <h3>It Looks Like that page doesn't exist</h3>
             <p>Return to home</p>
         </div>

@@ -1,5 +1,5 @@
 import { Component } from "react"
-export default class SignIn extends Component {
+export default class Login extends Component {
     constructor(props: any) {
         super(props);
     }

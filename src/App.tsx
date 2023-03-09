@@ -1,25 +1,9 @@
 import "./assets/styles/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Layout from "./components/Layout";
-import SignIn from './components/SignIn';
-import NotFound from './components/NotFound';
+import routes from "./routes/routes";
 
 function App() {
-  const router = createBrowserRouter([
-    {
-      element: <Layout />,
-      children: [
-        {
-          path: "/login",
-          element: <SignIn />
-        },
-        {
-          path: "/*",
-          element: <NotFound />
-        }
-      ]
-    }
-  ]);
+  const router = createBrowserRouter(routes);
 
   return (
       <div className="App">

@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event";
-import { createMemoryRouter, MemoryRouter, RouterProvider } from "react-router-dom";
+import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import routes from "../routes/routes";
 
 describe("Testing Routing", () => {
@@ -20,11 +20,11 @@ describe("Testing Routing", () => {
         user.setup();
 
         const router = createMemoryRouter(routes, {
-            initialEntries: ["/login"]
+            initialEntries: ["/"]
         });
 
         render(<RouterProvider router={router} />);
 
-        expect(screen.getByTestId("notFoundDiv")).toBeInTheDocument();
+        expect(screen.getByTestId("loginComponentId")).toBeInTheDocument();
     });
 });

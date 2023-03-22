@@ -73,7 +73,7 @@ export default class Login extends Component<any, LoginComponentState> {
                 <form>
                     <div className="form-group">
                         <div className="form-floating mb-3">
-                            <input type="email" className="form-control" id="floatingInput" name="email" value={this.state.email} onChange={this.handleChange} />
+                            <input type="email" className="form-control" id="floatingInput" data-testid="emailInput" name="email" value={this.state.email} onChange={this.handleChange} />
                             <label htmlFor="floatingInput">Email address</label>
                         </div>
                         <div className="form-floating">
@@ -82,6 +82,7 @@ export default class Login extends Component<any, LoginComponentState> {
                             className="form-control"
                             id="floatingPassword"
                             name="password"
+                            data-testid="passwordInput"
                             minLength={8}
                             value={this.state.password}
                             onChange={this.handleChange} />
@@ -92,11 +93,12 @@ export default class Login extends Component<any, LoginComponentState> {
                         <button
                         type="submit"
                         className="btn btn-primary"
+                        data-testid="loginButton"
                         disabled={this.state.isSubmitting || !this.state.isValidPassword || !this.state.isValidEmail}
                         onClick={this.onSubmit}>
                                 Login
                         </button>
-                        <Link to="/signUp" className="btn btn-info" style={{marginLeft: "5px"}}>
+                        <Link to="/signUp" className="btn btn-info" style={{marginLeft: "5px"}} data-testid="signUpButton">
                             Sign Up
                         </Link>
                     </div>

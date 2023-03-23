@@ -1,110 +1,108 @@
-import { ChangeEvent, Component, MouseEvent } from "react";
-import LoginComponentState from "../models/components/LoginComponentState";
+import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
 import ResponseBody from "../models/api/ResponseBody";
-import { Link, Navigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
-export default class Login extends Component<any, LoginComponentState> {
-    constructor(props: any) {
-        super(props);
+const Login = (props: any) => {
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
+    const [isValidEmail, setIsValidEmail] = useState(false);
+    const [isValidPassword, setIsValidPassword] = useState(false);
+    const [isSubmitting, setIsSubmitting] = useState(false);
 
-        this.state = {
-            email: "",
-            password: "",
-            isSubmitting: false,
-            wasLoggedIn: false,
-            isValidEmail: false,
-            isValidPassword: false
-        };
+    const navigate = useNavigate();
 
-        this.handleChange = this.handleChange.bind(this);
-        this.onSubmit = this.onSubmit.bind(this);
-    }
+    useEffect(() => {
+        setIsValidEmail(
+            // Per RFC 2822 Guidelines
+            email.match(/([A-Za-z0-9!#$%&'*+\-/=?^_`{|}~]+)(?:\.*[A-Za-z0-9!#$%&'*+\-/=?^_`{|}~]*)@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g)?.length === 1
+        );
+    }, [email]);
 
-    handleChange(e: ChangeEvent<HTMLInputElement>): void {
-        this.setState({
-            [e.currentTarget.name]: e.currentTarget.value
-        } as unknown as Pick<LoginComponentState, keyof LoginComponentState>, () => {
-            this.isValidEmail();
-            this.isValidPassword();
-        });
-    }
-
-    private isValidEmail() {
-        // Per RFC2822 Guidelines
-        this.setState({
-            isValidEmail: this.state.email.match(/([A-Za-z0-9!#$%&'*+\-/=?^_`{|}~]+)(?:\.*[A-Za-z0-9!#$%&'*+\-/=?^_`{|}~]*)@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g)?.length === 1
-        });
-    }
-
-    private isValidPassword(): void {
+    useEffect(() => {
         /*
-         * At least One Uppercase letter
-         * At least One lower case letter
-         * At least One special Character (See here:https://owasp.org/www-community/password-special-characters)
-         * At least 8 Characters in length
-         */
-        this.setState({
-            isValidPassword: this.state.password.match(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]).{8,}$/gm)?.length === 1
-        });
-    }
+        * At least One Uppercase letter
+        * At least One lower case letter
+        * At least One special Character (See here:https://owasp.org/www-community/password-special-characters)
+        * At least
+        * */
+        setIsValidPassword(
+            password.match(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]).{8,}$/gm)?.length === 1
+        );
+    }, [password])
 
-    async onSubmit(e: MouseEvent<HTMLButtonElement>) {
+    const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+        switch(e.target.name) {
+            case "email": setEmail(e.target.value); break;
+            case "password": setPassword(e.target.value); break;
+            default: break;
+        }
+    };
+
+    const onSubmit = async (e: MouseEvent<HTMLButtonElement>) => {
         e.preventDefault();
 
+        setIsSubmitting(true);
         await axios.post(`${import.meta.env.VITE_API_URL}/api/user/login`, {
-            email: this.state.email,
-            password: this.state.password
+            email,
+            password
         })
         .then((res: ResponseBody<String>) => {
-            this.setState({
-                wasLoggedIn: true
-            });
+            navigate("/home");
         })
         .catch((err: ResponseBody<String>) => {
 
-        });
-    }
-
-    render() {
-        return (
-            <div data-testid="loginComponentId">
-                <h2>Todo App: An Application for Storing your lists of To-dos</h2>
-                <form>
-                    <div className="form-group">
-                        <div className="form-floating mb-3">
-                            <input type="email" className="form-control" id="floatingInput" data-testid="emailInput" name="email" value={this.state.email} onChange={this.handleChange} />
-                            <label htmlFor="floatingInput">Email address</label>
-                        </div>
-                        <div className="form-floating">
-                            <input
-                            type="password"
-                            className="form-control"
-                            id="floatingPassword"
-                            name="password"
-                            data-testid="passwordInput"
-                            minLength={8}
-                            value={this.state.password}
-                            onChange={this.handleChange} />
-                            <label htmlFor="floatingPassword">Password</label>
-                        </div>
-                    </div>
-                    <div className="mt-2">
-                        <button
-                        type="submit"
-                        className="btn btn-primary"
-                        data-testid="loginButton"
-                        disabled={this.state.isSubmitting || !this.state.isValidPassword || !this.state.isValidEmail}
-                        onClick={this.onSubmit}>
-                                Login
-                        </button>
-                        <Link to="/signUp" className="btn btn-info" style={{marginLeft: "5px"}} data-testid="signUpButton">
-                            Sign Up
-                        </Link>
-                    </div>
-                </form>
-                {this.state.wasLoggedIn && <Navigate to={"/home"} />}
-            </div>
-        );
+        })
+        .finally(() => {
+            setIsSubmitting(false);
+        })
     };
-}
+
+    return (
+        <div data-testid="loginComponentId">
+            <h2>Todo App: An Application for Storing your lists of To-dos</h2>
+            <form>
+                <div className="form-group">
+                    <div className="form-floating mb-3">
+                        <input
+                        type="email"
+                        className="form-control"
+                        id="floatingInput"
+                        data-testid="emailInput"
+                        name="email"
+                        value={email}
+                        onChange={handleChange} />
+                        <label htmlFor="floatingInput">Email address</label>
+                    </div>
+                    <div className="form-floating">
+                        <input
+                        type="password"
+                        className="form-control"
+                        id="floatingPassword"
+                        name="password"
+                        data-testid="passwordInput"
+                        minLength={8}
+                        value={password}
+                        onChange={handleChange} />
+                        <label htmlFor="floatingPassword">Password</label>
+                    </div>
+                </div>
+                <div className="mt-2">
+                    <button
+                    type="submit"
+                    className="btn btn-primary"
+                    data-testid="loginButton"
+                    disabled={isSubmitting || !isValidPassword || !isValidEmail}
+                    onClick={onSubmit}>
+                            Login
+                    </button>
+                    <Link to="/signUp" className="btn btn-info" style={{marginLeft: "5px"}} data-testid="signUpButton">
+                        Sign Up
+                    </Link>
+                </div>
+            </form>
+        </div>
+    );
+};
+
+export default Login;

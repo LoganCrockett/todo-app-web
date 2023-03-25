@@ -1,16 +1,18 @@
-import { Outlet, useLocation } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import ToastManager from "./ToastManager";
 
 const Layout = () => {
     return (
         <>
             <Header />
-            <Outlet />
+            <ToastManager />
         </>
     );
 };
 
 const Header = () => {
     const location = useLocation();
+
     return (
     <>
         <nav className="navbar navbar-expand-lg navbar-dark bg-primary">

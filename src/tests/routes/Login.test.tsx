@@ -17,6 +17,8 @@ beforeEach(() => {
 });
 
 afterEach(() => {
+    server.resetHandlers();
+
     cleanup();
 });
 
@@ -46,6 +48,32 @@ describe("Login Component Test (Valid Data)", () => {
 
         expect(screen.getByTestId("signUpPageContainer")).toBeInTheDocument();
     });
+
+    test("Invalid Login Attempt (401: User Already Logged In)", async () => {
+        server.use(rest.post(`${import.meta.env.VITE_API_URL}/api/user/login`, (req, res, ctx) => {
+            return res.once(
+                ctx.status(401),
+                ctx.json<ResponseBody<string>>({
+                    data: "user already logged in"
+                })
+            );
+        }));
+        const emailInput = screen.getByTestId("emailInput");
+        const passwordInput = screen.getByTestId("passwordInput");
+
+        await user.click(emailInput);
+        await user.keyboard("example@email.com");
+
+        await user.click(passwordInput);
+        await user.keyboard("P@ssword123");
+
+        const submitButton = screen.getByTestId("loginButton");
+        expect(submitButton).toBeEnabled();
+
+        await user.click(submitButton);
+
+        expect(screen.getByTestId("homePageContainer")).toBeInTheDocument();
+    });
 });
 
 const invalidEmails = [
@@ -69,7 +97,7 @@ const invalidPasswords = [
     "p@ssword123"
 ]
 
-describe("Login Component Test(Invalid Data)", () => {
+describe("Login Component Test(Invalid)", () => {
     test.each(invalidEmails)("Submit button is disabled with invalid email", async (email) => {
         const emailInput = screen.getByTestId("emailInput");
         const passwordInput = screen.getByTestId("passwordInput");
@@ -102,7 +130,7 @@ describe("Login Component Test(Invalid Data)", () => {
 
     test("Invalid Login Attempt (500 or related Error)", async () => {
         server.use(rest.post(`${import.meta.env.VITE_API_URL}/api/user/login`, (req, res, ctx) => {
-            return res(
+            return res.once(
                 ctx.status(500),
                 ctx.json<ResponseBody<string>>({
                     data: "An error occured. Please try again"
@@ -125,6 +153,4 @@ describe("Login Component Test(Invalid Data)", () => {
 
         expect(screen.getByRole("alert")).toBeInTheDocument();
     });
-
-    test.todo("Invalid Login Attempt (401: User already logged in)");
 });

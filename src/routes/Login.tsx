@@ -2,6 +2,7 @@ import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import axios from "axios";
 import ResponseBody from "../models/api/ResponseBody";
 import { Link, useNavigate } from "react-router-dom";
+import { useToastManager } from "../components/ToastManager";
 
 const Login = (props: any) => {
     const [email, setEmail] = useState("");
@@ -11,6 +12,8 @@ const Login = (props: any) => {
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
+
+    const toastManager = useToastManager();
 
     useEffect(() => {
         setIsValidEmail(
@@ -51,7 +54,7 @@ const Login = (props: any) => {
             navigate("/home");
         })
         .catch((err: ResponseBody<String>) => {
-
+            toastManager.addToast("error", "Please try again.", "An error occured...");
         })
         .finally(() => {
             setIsSubmitting(false);

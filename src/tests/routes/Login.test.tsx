@@ -2,6 +2,9 @@ import { cleanup, render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
 import routes from "../../routes/routes";
+import { server } from "../mocks/apiServer/server";
+import { rest } from "msw";
+import ResponseBody from "../../models/api/ResponseBody";
 
 beforeEach(() => {
     user.setup();
@@ -97,7 +100,31 @@ describe("Login Component Test(Invalid Data)", () => {
         expect(submitButton).toBeDisabled();
     });
 
-    test.todo("Invalid Login Attempt (500 Error)");
+    test("Invalid Login Attempt (500 or related Error)", async () => {
+        server.use(rest.post(`${import.meta.env.VITE_API_URL}/api/user/login`, (req, res, ctx) => {
+            return res(
+                ctx.status(500),
+                ctx.json<ResponseBody<string>>({
+                    data: "An error occured. Please try again"
+                })
+            );
+        }));
+        const emailInput = screen.getByTestId("emailInput");
+        const passwordInput = screen.getByTestId("passwordInput");
+
+        await user.click(emailInput);
+        await user.keyboard("example@email.com");
+
+        await user.click(passwordInput);
+        await user.keyboard("P@ssword123");
+
+        const submitButton = screen.getByTestId("loginButton");
+        expect(submitButton).toBeEnabled();
+
+        await user.click(submitButton);
+
+        expect(screen.getByRole("alert")).toBeInTheDocument();
+    });
 
     test.todo("Invalid Login Attempt (401: User already logged in)");
 });

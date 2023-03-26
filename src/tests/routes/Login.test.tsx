@@ -1,25 +1,12 @@
 import { cleanup, render, screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import routes from "../../routes/routes";
 import { server } from "../mocks/apiServer/server";
 import { rest } from "msw";
 import ResponseBody from "../../models/api/ResponseBody";
+import renderRouter from "../utils/router.utils";
 
 beforeEach(() => {
-    user.setup();
-
-    const router = createMemoryRouter(routes, {
-        initialEntries: ["/"]
-    });
-
-    render(<RouterProvider router={router} />);
-});
-
-afterEach(() => {
-    server.resetHandlers();
-
-    cleanup();
+    renderRouter(["/"]);
 });
 
 describe("Login Component Test (Valid Data)", () => {

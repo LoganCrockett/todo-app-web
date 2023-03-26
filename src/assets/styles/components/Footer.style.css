@@ -1,0 +1,10 @@
+#footerNav {
+    grid-area: footer;
+    display: flex;
+    align-content: center;
+    align-items: center;
+}
+
+#footerNav p {
+    flex: 1;
+}

@@ -13,6 +13,3 @@ Once the dev server is finished loading, you should see a message in the termina
 We will use the BlueJava Git Message format guide found [here](https://github.com/bluejava/git-commit-guide).
 
 # Mentions/References
-
-## Styling
-For styling, we will use the Bootswatch Lumen theme found [here](https://bootswatch.com/lumen/).

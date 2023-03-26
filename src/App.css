@@ -1,0 +1,23 @@
+.mr-1 {
+    margin-right: calc(var(--spacer) * .25);
+}
+
+.mr-2 {
+    margin-right: calc(var(--spacer) * .5);
+}
+
+.ml-1 {
+    margin-left: calc(var(--spacer) * .25);
+}
+
+.ml-2 {
+    margin-left: calc(var(--spacer) * .5);
+}
+
+.ma-1 {
+    margin: calc(var(--spacer) * .25);
+}
+
+.ma-2 {
+    margin: calc(var(--spacer) * .5);
+}

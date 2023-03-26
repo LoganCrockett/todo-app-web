@@ -1,0 +1,16 @@
+#headerNav {
+    display: flex;
+    align-items: center;
+    grid-area: header;
+}
+
+.nav-list {
+    margin: 0 .5% 0 auto;
+    padding: 0px;
+    display: inline;
+}
+
+.nav-list > li {
+    display: inline;
+    list-style-type: none;
+}

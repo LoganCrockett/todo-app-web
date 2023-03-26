@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import usePassword, { usePasswordValidation } from "../../hooks/usePassword";
+import usePassword, { usePasswordValidation } from "../../hooks/usePassword.hook";
 
 const invalidPasswords = [
     "",

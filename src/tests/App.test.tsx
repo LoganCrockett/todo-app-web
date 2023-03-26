@@ -1,7 +1,7 @@
 import { render, screen } from "@testing-library/react"
 import user from "@testing-library/user-event";
 import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import routes from "../routes/routes";
+import routes from "../pages/pages";
 
 describe("Testing Routing", () => {
     test("404 Not Found Route", () => {

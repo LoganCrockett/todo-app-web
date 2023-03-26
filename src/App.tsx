@@ -1,6 +1,6 @@
 import "./assets/styles/bootstrap.min.css";
 import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import routes from "./routes/routes";
+import routes from "./pages/pages";
 
 function App() {
   const router = createBrowserRouter(routes);

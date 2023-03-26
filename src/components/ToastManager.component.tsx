@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import ToastProps, { ToastData } from "../models/components/ToastProps";
+import ToastProps, { ToastData } from "../models/components/ToastManager.model";
 import { Outlet, useOutletContext } from "react-router-dom";
 
 type ContextType = {

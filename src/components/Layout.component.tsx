@@ -1,5 +1,5 @@
 import { useLocation, useNavigate } from "react-router-dom";
-import ToastManager from "./ToastManager";
+import ToastManager from "./ToastManager.component";
 import axios from "axios";
 import { useEffect } from "react";
 

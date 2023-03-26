@@ -1,5 +1,5 @@
 import { renderHook } from "@testing-library/react";
-import useEmail from "../../hooks/useEmail";
+import useEmail from "../../hooks/useEmail.hook";
 
 const invalidEmails = [
     "",

@@ -1,4 +1,4 @@
-import { useToastManager } from "../components/ToastManager";
+import { useToastManager } from "../components/ToastManager.component";
 
 const SignUp = (props: any) => {
     const context = useToastManager();

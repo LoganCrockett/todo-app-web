@@ -1,10 +1,10 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import axios from "axios";
-import ResponseBody from "../models/api/ResponseBody";
+import ResponseBody from "../models/api/ResponseBody.model";
 import { Link, useNavigate } from "react-router-dom";
-import { useToastManager } from "../components/ToastManager";
-import useEmail from "../hooks/useEmail";
-import usePassword from "../hooks/usePassword";
+import { useToastManager } from "../components/ToastManager.component";
+import useEmail from "../hooks/useEmail.hook";
+import usePassword from "../hooks/usePassword.hook";
 
 const Login = (props: any) => {
     const { email, setEmail, isValidEmail } = useEmail();
@@ -54,6 +54,7 @@ const Login = (props: any) => {
                         id="floatingInput"
                         data-testid="emailInput"
                         name="email"
+                        placeholder=""
                         value={email}
                         onChange={handleChange} />
                         <label htmlFor="floatingInput">Email address</label>
@@ -65,6 +66,7 @@ const Login = (props: any) => {
                         id="floatingPassword"
                         name="password"
                         data-testid="passwordInput"
+                        placeholder=""
                         minLength={8}
                         value={password}
                         onChange={handleChange} />

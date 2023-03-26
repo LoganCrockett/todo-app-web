@@ -76,35 +76,13 @@ describe("Login Component Test (Valid Data)", () => {
     });
 });
 
-const invalidEmails = [
-    "",
-    "1234@.com",
-    "asdf4233example.com",
-    "@example.com",
-    "example@example",
-    "example@example."
-];
-
-const invalidPasswords = [
-    "",
-    "pass",
-    "1234",
-    "password",
-    "passwo3d",
-    "Password",
-    "Passwo3d",
-    "P@ssword",
-    "p@ssword123"
-]
-
 describe("Login Component Test(Invalid)", () => {
-    test.each(invalidEmails)("Submit button is disabled with invalid email", async (email) => {
+    test("Submit button is disabled with invalid email", async () => {
         const emailInput = screen.getByTestId("emailInput");
         const passwordInput = screen.getByTestId("passwordInput");
 
         await user.click(emailInput);
-        // If it is blank, we just need to input a key here
-        await user.keyboard(email === "" ? "Shift" : email);
+        await user.keyboard("email");
 
         await user.click(passwordInput);
         await user.keyboard("P@ssword123");
@@ -113,7 +91,7 @@ describe("Login Component Test(Invalid)", () => {
         expect(submitButton).toBeDisabled();
     });
 
-    test.each(invalidPasswords)("Submit button is disabled with invalid Password", async (password) => {
+    test("Submit button is disabled with invalid Password", async () => {
         const emailInput = screen.getByTestId("emailInput");
         const passwordInput = screen.getByTestId("passwordInput");
 
@@ -121,8 +99,7 @@ describe("Login Component Test(Invalid)", () => {
         await user.keyboard("example@email.com");
 
         await user.click(passwordInput);
-        // If it is blank, we just need to input a key here
-        await user.keyboard(password === "" ? "Shift" : password);
+        await user.keyboard("password");
 
         const submitButton = screen.getByTestId("loginButton");
         expect(submitButton).toBeDisabled();

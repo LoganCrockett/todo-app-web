@@ -1,38 +1,19 @@
-import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import axios from "axios";
 import ResponseBody from "../models/api/ResponseBody";
 import { Link, useNavigate } from "react-router-dom";
 import { useToastManager } from "../components/ToastManager";
+import useEmail from "../hooks/useEmail";
+import usePassword from "../hooks/usePassword";
 
 const Login = (props: any) => {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [isValidEmail, setIsValidEmail] = useState(false);
-    const [isValidPassword, setIsValidPassword] = useState(false);
+    const { email, setEmail, isValidEmail } = useEmail();
+    const { password, setPassword, isValidPassword } = usePassword();
     const [isSubmitting, setIsSubmitting] = useState(false);
 
     const navigate = useNavigate();
 
     const toastManager = useToastManager();
-
-    useEffect(() => {
-        setIsValidEmail(
-            // Per RFC 2822 Guidelines
-            email.match(/([A-Za-z0-9!#$%&'*+\-/=?^_`{|}~]+)(?:\.*[A-Za-z0-9!#$%&'*+\-/=?^_`{|}~]*)@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?/g)?.length === 1
-        );
-    }, [email]);
-
-    useEffect(() => {
-        /*
-        * At least One Uppercase letter
-        * At least One lower case letter
-        * At least One special Character (See here:https://owasp.org/www-community/password-special-characters)
-        * At least
-        * */
-        setIsValidPassword(
-            password.match(/^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])(?=.*[ !"#$%&'()*+,-./:;<=>?@[\]^_`{|}~]).{8,}$/gm)?.length === 1
-        );
-    }, [password])
 
     const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
         switch(e.target.name) {
@@ -64,7 +45,7 @@ const Login = (props: any) => {
     return (
         <div data-testid="loginComponentId">
             <h2>Todo App: An Application for Storing your lists of To-dos</h2>
-            <form>
+            <form id="inputForm">
                 <div className="form-group">
                     <div className="form-floating mb-3">
                         <input
@@ -90,20 +71,21 @@ const Login = (props: any) => {
                         <label htmlFor="floatingPassword">Password</label>
                     </div>
                 </div>
-                <div className="mt-2">
-                    <button
-                    type="submit"
-                    className="btn btn-primary"
-                    data-testid="loginButton"
-                    disabled={isSubmitting || !isValidPassword || !isValidEmail}
-                    onClick={onSubmit}>
-                            Login
-                    </button>
-                    <Link to="/signUp" className="btn btn-info" style={{marginLeft: "5px"}} data-testid="signUpButton">
-                        Sign Up
-                    </Link>
-                </div>
             </form>
+            <div className="mt-2">
+                <button
+                type="submit"
+                form="inputForm"
+                className="btn btn-primary"
+                data-testid="loginButton"
+                disabled={isSubmitting || !isValidPassword || !isValidEmail}
+                onClick={onSubmit}>
+                        Login
+                </button>
+                <Link to="/signUp" className="btn btn-info" style={{marginLeft: "5px"}} data-testid="signUpButton">
+                    Sign Up
+                </Link>
+            </div>
         </div>
     );
 };

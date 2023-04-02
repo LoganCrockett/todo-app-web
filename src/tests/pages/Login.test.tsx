@@ -1,4 +1,4 @@
-import { cleanup, render, screen } from "@testing-library/react";
+import { screen } from "@testing-library/react";
 import user from "@testing-library/user-event";
 import { server } from "../mocks/apiServer/server.mock";
 import { rest } from "msw";
@@ -6,7 +6,7 @@ import ResponseBody from "../../models/api/ResponseBody.model";
 import renderRouter from "../utils/router.utils";
 
 beforeEach(() => {
-    renderRouter(["/"]);
+    renderRouter({ initialEntries: ["/"] });
 });
 
 describe("Login Component Test (Valid Data)", () => {

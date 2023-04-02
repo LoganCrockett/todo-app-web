@@ -21,3 +21,23 @@
 .ma-2 {
     margin: calc(var(--spacer) * .5);
 }
+
+.btn {
+    border-radius: .75rem;
+    border: .25rem double black;
+    background-color: var(--bg-primary-color);
+    padding: .15rem .5rem;
+    color: var(--bg-secondary-color);
+
+    font-weight: 200;
+    font-size: large;
+}
+
+.btn:enabled:hover {
+    box-shadow: 0px 0px .5rem black;
+    transition: 1s;
+}
+
+.btn:disabled {
+    opacity: 60%;
+}

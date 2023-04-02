@@ -1,9 +1,9 @@
 #mainGridParent {
     display: grid;
     grid-template:
-        [row1-start] "header" 5vw [row1-end]
-        [row2-start] "content" 90vw [row2-end]
-        [row3-start] "footer" 5vw [row3-end]
+        [row1-start] "header" 5vh [row1-end]
+        [row2-start] "content" 90vh [row2-end]
+        [row3-start] "footer" 5vh [row3-end]
         / 1fr;
     justify-items: stretch;
     align-items: stretch;
@@ -11,4 +11,5 @@
 
 nav {
     background-color: var(--bg-primary-color);
+    max-height: 40px;
 }

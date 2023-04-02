@@ -35,7 +35,9 @@ const Layout = () => {
         <>
             <div id="mainGridParent">
                 <Header />
-                <ToastManager />
+                <main>
+                    <ToastManager />
+                </main>
                 <Footer />
             </div>
         </>

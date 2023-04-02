@@ -1,30 +1,28 @@
-import { render, screen } from "@testing-library/react"
-import user from "@testing-library/user-event";
-import { createMemoryRouter, RouterProvider } from "react-router-dom";
-import routes from "../pages/pages";
+import { screen } from "@testing-library/react"
+import renderRouter from "./utils/router.utils";
 
 describe("Testing Routing", () => {
     test("404 Not Found Route", () => {
-        user.setup();
-
-        const router = createMemoryRouter(routes, {
-            initialEntries: ["/some-route-that-doesnt-exist"]
-        });
-
-        render(<RouterProvider router={router} />);
+        renderRouter({ initialEntries: ["/some-route-that-doesnt-exist"] });
 
         expect(screen.getByTestId("notFoundDiv")).toBeInTheDocument();
     });
 
     test("Login Route", () => {
-        user.setup();
-
-        const router = createMemoryRouter(routes, {
-            initialEntries: ["/"]
-        });
-
-        render(<RouterProvider router={router} />);
+        renderRouter({ initialEntries: ["/"] });
 
         expect(screen.getByTestId("loginComponentId")).toBeInTheDocument();
+    });
+
+    test("Sign Up Route", () => {
+        renderRouter({ initialEntries: ["/signUp"] });
+
+        expect(screen.getByTestId("signUpPageContainer")).toBeInTheDocument();
+    });
+
+    test("Home Route", () => {
+        renderRouter({ initialEntries: ["/home"] });
+
+        expect(screen.getByTestId("homePageContainer")).toBeInTheDocument();
     });
 });

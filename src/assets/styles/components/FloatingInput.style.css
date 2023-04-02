@@ -1,0 +1,27 @@
+.floating-form {
+    position: relative;
+    margin: .25rem;
+}
+
+.floating-form .floating-input {
+    height: calc(2rem + 2px);
+}
+
+.floating-form * {
+    padding: .5rem;
+}
+
+.floating-form > label {
+    position: absolute;
+    left: 0;
+    top: 0;
+
+    transition: opacity .1s ease-in-out, transform .1s ease-in-out;
+    transform-origin: 0 0;
+}
+
+.floating-input:focus + label,
+.floating-input:not(:placeholder-shown) + label {
+    opacity: 65%;
+    transform: scale(.75) translateY(-.20rem) translateX(.20rem);
+}

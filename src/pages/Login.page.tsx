@@ -1,10 +1,12 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import axios from "axios";
 import ResponseBody from "../models/api/ResponseBody.model";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useToastManager } from "../components/ToastManager.component";
 import useEmail from "../hooks/useEmail.hook";
 import usePassword from "../hooks/usePassword.hook";
+import LinkButton from "../components/LinkButton.component";
+import FloatingInput from "../components/FloatingInput.component";
 
 const Login = (props: any) => {
     const { email, setEmail, isValidEmail } = useEmail();
@@ -47,31 +49,27 @@ const Login = (props: any) => {
             <h2>Todo App: An Application for Storing your lists of To-dos</h2>
             <form id="inputForm">
                 <div className="form-group">
-                    <div className="form-floating mb-3">
-                        <input
-                        type="email"
-                        className="form-control"
-                        id="floatingInput"
-                        data-testid="emailInput"
-                        name="email"
-                        placeholder=""
-                        value={email}
-                        onChange={handleChange} />
-                        <label htmlFor="floatingInput">Email address</label>
-                    </div>
-                    <div className="form-floating">
-                        <input
-                        type="password"
-                        className="form-control"
-                        id="floatingPassword"
-                        name="password"
-                        data-testid="passwordInput"
-                        placeholder=""
-                        minLength={8}
-                        value={password}
-                        onChange={handleChange} />
-                        <label htmlFor="floatingPassword">Password</label>
-                    </div>
+                    <FloatingInput
+                    id="emailInput"
+                    testId="emailInput"
+                    name="email"
+                    type="email"
+                    placeholder=""
+                    value={email}
+                    handleChange={handleChange}
+                    labelText="Email Address"
+                    />
+                    <FloatingInput
+                    id="passwordInput"
+                    testId="passwordInput"
+                    type="password"
+                    placeholder=""
+                    name="password"
+                    minLength={8}
+                    value={password}
+                    handleChange={handleChange}
+                    labelText="Password"
+                    />
                 </div>
             </form>
             <div className="mt-2">
@@ -84,9 +82,7 @@ const Login = (props: any) => {
                 onClick={onSubmit}>
                         Login
                 </button>
-                <Link to="/signUp" className="btn btn-info" style={{marginLeft: "5px"}} data-testid="signUpButton">
-                    Sign Up
-                </Link>
+                <LinkButton to={"/signUp"} buttonText={"Sign Up"} buttonStyle={{marginLeft: "5px"}} testId={"signUpButton"} />
             </div>
         </div>
     );

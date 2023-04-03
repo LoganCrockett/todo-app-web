@@ -9,5 +9,13 @@ export const handlers = [
                 data: "Successfully logged in"
             })
         );
+    }),
+    rest.post(`${import.meta.env.VITE_API_URL}/api/user`, (req, res, ctx) => {
+        return res(
+            ctx.status(200),
+            ctx.json<ResponseBody<string>>({
+                data: "Account Successfully created"
+            })
+        );
     })
 ];

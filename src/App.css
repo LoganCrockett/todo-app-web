@@ -41,3 +41,11 @@
 .btn:disabled {
     opacity: 60%;
 }
+
+.text-valid {
+    color: springgreen;
+}
+
+.text-invalid {
+    color:tomato;
+}

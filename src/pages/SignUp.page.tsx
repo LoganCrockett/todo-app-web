@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import FloatingInput from "../components/FloatingInput.component";
-import { useToastManager } from "../components/ToastManager.component";
+import useToastManager from "../hooks/toastManager/useToastManager.hook";
 import useEmail from "../hooks/useEmail.hook";
 import usePassword from "../hooks/usePassword.hook";
 import LinkButton from "../components/LinkButton.component";
